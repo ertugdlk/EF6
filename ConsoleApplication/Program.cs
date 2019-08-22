@@ -16,8 +16,8 @@ namespace ConsoleApplication
             Database.SetInitializer(new NullDatabaseInitializer<NinjaContext>());
             //InsertNinja();
             //InsertMultipleNinjas();
-            SimpleNinjaQueries();
-            //QueryAndUpdateNinja();
+            //SimpleNinjaQueries();
+            QueryAndUpdateNinja();
             //DeleteNinja();
             //RetrieveDataWithFind();
             //RetrieveDataWithStoredProc();
@@ -95,6 +95,16 @@ namespace ConsoleApplication
                 {
                     Console.WriteLine(ninja.Name);
                 }
+            }
+        }
+
+        private static void QueryAndUpdateNinja()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninja = context.Ninjas.FirstOrDefault();
+                context.SaveChanges();
             }
         }
     }
