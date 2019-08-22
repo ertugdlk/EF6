@@ -104,6 +104,7 @@ namespace ConsoleApplication
             {
                 context.Database.Log = Console.WriteLine;
                 var ninja = context.Ninjas.FirstOrDefault();
+                ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
                 context.SaveChanges();
             }
         }
