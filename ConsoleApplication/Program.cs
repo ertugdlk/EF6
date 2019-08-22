@@ -23,7 +23,8 @@ namespace ConsoleApplication
             //RetrieveDataWithStoredProc();
             //DeleteNinjaWithKeyValue();
             //DeleteNinjaViaStoredProcedure();
-            QueryAndUpdateNinjaDisconnected();
+            //QueryAndUpdateNinjaDisconnected();
+            CloneFirstNinja();
 
             //InsertNinjaWithEquipment();
             //SimpleNinjaGraphQuery();
@@ -36,6 +37,7 @@ namespace ConsoleApplication
 
         private static void InsertNinja()
         {
+
             var ninja = new Ninja
             {
                 Name = "SampsonSan",
@@ -50,6 +52,44 @@ namespace ConsoleApplication
                 context.Ninjas.Add(ninja);
                 context.SaveChanges();
             }
+        }
+
+        private static void CloneFirstNinja()
+        {
+            Ninja ninja2 = new Ninja();
+            using (var context = new NinjaContext())
+            {
+                //var ninja2 = new Ninja();
+                context.Database.Log = Console.WriteLine;
+
+                context.Ninjas.Attach(ninja2);
+                var ninja = context.Ninjas.AsNoTracking().FirstOrDefault();
+
+                ninja2.Name = ninja.Name;
+                ninja2.ServedInOniwaban = ninja.ServedInOniwaban;
+                ninja2.DateOfBirth = new DateTime(2008, 1, 28);
+                ninja2.ClanId = 1;
+
+
+                context.Database.Log = Console.WriteLine;
+                //context.Ninjas.Add(ninja2);
+                context.Entry(ninja2).State = EntityState.Added;
+                context.SaveChanges();
+
+            }
+
+
+
+
+            //          using (var context = new NinjaContext())
+            //{
+            //    context.Database.Log = Console.WriteLine;
+            //    var ninja = context.Ninjas.FirstOrDefault();
+            //    ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
+            //    context.SaveChanges();
+            //}
+
+
         }
 
         private static void InsertMultipleNinjas()
