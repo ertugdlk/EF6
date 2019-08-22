@@ -20,12 +20,12 @@ namespace ConsoleApplication
             //QueryAndUpdateNinja();
             //DeleteNinja();
             //RetrieveDataWithFind();
-            RetrieveDataWithStoredProc();
+            //RetrieveDataWithStoredProc();
             //DeleteNinjaWithKeyValue();
             //DeleteNinjaViaStoredProcedure();
             //QueryAndUpdateNinjaDisconnected();
             //CloneFirstNinja();
-
+            //DeleteSampsonSan();
             //InsertNinjaWithEquipment();
             //SimpleNinjaGraphQuery();
             //ProjectionQuery();
@@ -171,7 +171,7 @@ namespace ConsoleApplication
         }
 
 
-        //yeni
+        //video 6 find()
         private static void RetrieveDataWithFind()
         {
             var keyval = 4;
@@ -186,7 +186,7 @@ namespace ConsoleApplication
                 ninja = null;
             }
         }
-        //yeni
+        //video 6 find()
 
         private static void RetrieveDataWithStoredProc()
         {
@@ -199,6 +199,54 @@ namespace ConsoleApplication
                 //{
                 //    Console.WriteLine(ninja.Name);
                 //}
+            }
+        }
+        //video7 delete() ninjas with sampsonsan name
+        private static void DeleteSampsonSan()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                var ninjas = context.Ninjas.SqlQuery("exec SampsonSan").ToList();
+
+                context.Ninjas.RemoveRange(ninjas);
+                context.SaveChanges();
+            }
+        }
+
+
+        //video7 delete()
+        private static void DeleteNinja()
+        {
+            Ninja ninja;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                ninja = context.Ninjas.FirstOrDefault();
+                //context.Ninjas.Remove(ninja);
+                //context.SaveChanges();
+            }
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                //context.Ninjas.Attach(ninja);
+                //context.Ninjas.Remove(ninja);
+                context.Entry(ninja).State = EntityState.Deleted;
+                context.SaveChanges();
+            }
+        }
+
+        //video7 delete()
+        private static void DeleteNinjaWithKeyValue()
+        {
+            var keyval = 1;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                var ninja = context.Ninjas.Find(keyval);
+                context.Ninjas.Remove(ninja);
+                context.SaveChanges();
             }
         }
 
