@@ -17,13 +17,13 @@ namespace ConsoleApplication
             //InsertNinja();
             //InsertMultipleNinjas();
             //SimpleNinjaQueries();
-            QueryAndUpdateNinja();
+            //QueryAndUpdateNinja();
             //DeleteNinja();
             //RetrieveDataWithFind();
             //RetrieveDataWithStoredProc();
             //DeleteNinjaWithKeyValue();
             //DeleteNinjaViaStoredProcedure();
-            //QueryAndUpdateNinjaDisconnected();
+            QueryAndUpdateNinjaDisconnected();
 
             //InsertNinjaWithEquipment();
             //SimpleNinjaGraphQuery();
@@ -84,9 +84,9 @@ namespace ConsoleApplication
                     .Where(n => n.DateOfBirth >= new DateTime(1984, 1, 1))
                     .OrderBy(n => n.Name)
                     .Skip(1);
-                    
 
-                    
+
+
 
 
                 //var query = context.Ninjas;
@@ -108,5 +108,27 @@ namespace ConsoleApplication
                 context.SaveChanges();
             }
         }
+
+
+        private static void QueryAndUpdateNinjaDisconnected()
+        {
+            Ninja ninja;
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                ninja = context.Ninjas.FirstOrDefault();
+            }
+
+            ninja.ServedInOniwaban = (!ninja.ServedInOniwaban);
+
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+                context.Ninjas.Attach(ninja);
+                context.Entry(ninja).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
     }
 }
