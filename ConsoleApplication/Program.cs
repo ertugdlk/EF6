@@ -27,7 +27,7 @@ namespace ConsoleApplication
             //CloneFirstNinja();
             //DeleteSampsonSan();
             //InsertNinjaWithEquipment();
-            //SimpleNinjaGraphQuery();
+            SimpleNinjaGraphQuery();
             //ProjectionQuery();
             //QueryAndUpdateNinjaDisconnected();
 
@@ -236,7 +236,7 @@ namespace ConsoleApplication
             }
         }
 
-        //video7 delete()
+        //video7 delete() son method kaldı ...
         private static void DeleteNinjaWithKeyValue()
         {
             var keyval = 1;
@@ -249,6 +249,59 @@ namespace ConsoleApplication
                 context.SaveChanges();
             }
         }
+
+        private static void InsertNinjaWithEquipment()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                var ninja = new Ninja
+                {
+                    Name = "Kacy Catanzaro",
+                    ServedInOniwaban = false,
+                    DateOfBirth = new DateTime(1990, 1, 14),
+                    ClanId = 1
+                };
+                var muscles = new NinjaEquipment
+                {
+                    Name = "Muscles",
+                    Type = EquipmentType.Tool,
+
+                };
+                var spunk = new NinjaEquipment
+                {
+                    Name = "Spunk",
+                    Type = EquipmentType.Weapon
+                };
+
+                ninja.EquipmentOwned.Add(muscles);
+                ninja.EquipmentOwned.Add(spunk);
+                context.Ninjas.Add(ninja);
+                context.SaveChanges();
+            }
+
+        }
+        
+        private static void SimpleNinjaGraphQuery()
+        {
+            using (var context = new NinjaContext())
+            {
+                context.Database.Log = Console.WriteLine;
+
+                //var ninjas = context.Ninjas.Include(n => n.EquipmentOwned)
+                //    .FirstOrDefault(n => n.Name.StartsWith("Kacy"));
+
+                var ninja = context.Ninjas
+                          .FirstOrDefault(n => n.Name.StartsWith("Kacy"));
+                
+                Console.WriteLine("ninja retrieved:" + ninja.Name);
+                //context.Entry(ninja).Collection(n => n.EquipmentOwned).Load();
+
+            }
+
+        }
+
 
     }
 }

@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NinjaDomain.Classes
 {
+        
+
     public class Ninja
     {
         public int Id { get; set; }
@@ -15,12 +17,22 @@ namespace NinjaDomain.Classes
         public List<NinjaEquipment> EquipmentOwned { get; set; }
 
         public System.DateTime DateOfBirth { get; set; }
+
+        public Ninja()
+        {
+            EquipmentOwned = new List<NinjaEquipment>();
+        }
     }
     public class Clan
     {
         public int Id { get; set; }
         public string ClanName { get; set; }
         public List<Ninja> Ninjas { get; set; }
+
+        public Clan()
+        {
+            Ninjas = new List<Ninja>();
+        }
     }
 
     public class NinjaEquipment
